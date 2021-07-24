@@ -1,9 +1,8 @@
-import Favoritos from "../../components/Pages/Favoritos";
-import Movies from "../../components/Pages/Movies";
-import Search from "../../components/Pages/Search";
-import Series from "../../components/Pages/Series";
-import Trending from "../../components/Pages/Trending";
-
+import Trending from "../../Pages/Trending";
+import Movies from "../../Pages/Movies"
+import Series from "../../Pages/Series"
+import Search from "../../Pages/Search"
+import Favoritos from "../../Pages/Favoritos"
 
 const routes = [
     {
