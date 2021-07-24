@@ -1,0 +1,40 @@
+.container  {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #281c34;
+    border-radius: 13px;
+    position: relative;
+    font-family: sans-serif;
+}
+
+.container:hover {
+    background-color: #700fdf;
+    color: rgb(17, 185, 228);
+    cursor: pointer;
+}
+
+@media (max-width: 550px) {
+    .container {
+        width: 46%;
+    }
+}
+
+.image {
+    border-radius: 13px;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    font-size: 8px 0;
+}
+
+.subtitle {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px 0 3px;
+}
