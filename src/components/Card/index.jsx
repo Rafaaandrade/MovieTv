@@ -3,22 +3,23 @@ import {
   img_300,
   indisponivel,
 } from "../../utils/constants/imagens/imagens-name";
-import "./styles.css";
+import useStyles from "./styles";
 
-const Card = ({ id, image, title, date, type, vote_average }) => {
+const Card = ({ image, title, date, type, vote_average }) => {
+  const styles = useStyles();
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Badge
-        badgeContent={vote_average || 'Sem votos'}
+        badgeContent={vote_average || "Sem votos"}
         color={vote_average > 6 ? "primary" : "secondary"}
       />
       <img
-        className="image"
+        className={styles.image}
         src={image ? `${img_300}/${image}` : indisponivel}
         alt={title}
       />
-      <b className="title">{title}</b>
-      <span className="subtitle">
+      <b className={styles.title}>{title}</b>
+      <span className={styles.subtitle}>
         {type === "tv" ? "Séries de TV" : "Filmes"}
         <span>{date}</span>
       </span>
