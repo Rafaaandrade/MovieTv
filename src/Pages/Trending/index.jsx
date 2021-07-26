@@ -18,7 +18,7 @@ const Trending = () => {
       <span className={styles.pageTitle}>Em alta</span>
       <div className={styles.containerContent}>
         {content &&
-          content.map((c) => (
+          content.data.map((c) => (
             <Card
               key={c.id}
               id={c.id}

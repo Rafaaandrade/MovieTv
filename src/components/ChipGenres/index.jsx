@@ -1,46 +1,44 @@
 import { Chip } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useAPIContext } from "../Context/APIContext";
 import useStyles from "./styles";
 
 const ChipGenres = () => {
-  const {
-    fetchGenres,
-    genresList,
-    setGenresList,
-    selectedGenres,
-    setSelectedGenres,
-    setPagination,
-  } = useAPIContext();
+  const { fetchGenres, content, setContent, setPagination } = useAPIContext();
   const styles = useStyles();
 
-  const [color, setColor] = useState()
   useEffect(() => {
     fetchGenres();
-
-    return () => {
-      setGenresList({});
-    };
   }, []);
 
-  const handleAddGenresFilter = (genero) => {
-    setSelectedGenres([...selectedGenres, genero]);
-    setGenresList(genresList.filter((g) => g.id !== genero.id));
-    setPagination(1);
-  };
+  const handleAddGenresFilter = useCallback((genero) => {
 
-  const handleRemoveGenresFilter = (genero) => {
-    setSelectedGenres(
-      selectedGenres.filter((selected) => selected.id !== genero.id)
-    );
-    setGenresList([...genresList, genero]);
+    const { selectedGenres, genresList } = content;
+    const filter = genresList.filter((g) => g.id !== genero.id);
+    setContent((prevState) => ({
+      ...prevState,
+      genresList: filter,
+      selectedGenres: [...selectedGenres, genero],
+    }))
     setPagination(1);
-  };
+  }, [content, setContent, setPagination]);
+
+  const handleRemoveGenresFilter = useCallback((genero) => {
+
+    const { genresList, selectedGenres } = content;
+    const filter = selectedGenres.filter((selected) => selected.id !== genero.id);
+    setContent((prevState) => ({
+      ...prevState,
+      selectedGenres: filter,
+      genresList: [...genresList, genero]
+    }))
+    setPagination(1);
+  }, [content, setContent, setPagination]);
 
   return (
     <div className={styles.chipContainer}>
-      {selectedGenres &&
-        selectedGenres.map((genero) => (
+      {content &&
+        content.selectedGenres.map((genero) => (
           <Chip
             className={styles.chip}
             label={genero.name}
@@ -51,8 +49,8 @@ const ChipGenres = () => {
             onDelete={() => handleRemoveGenresFilter(genero)}
           />
         ))}
-      {genresList &&
-        genresList.map((genero) => (
+      {content &&
+       content.genresList.map((genero) => (
           <Chip
             className={styles.chip}
             label={genero.name}

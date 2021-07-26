@@ -1,6 +1,6 @@
 const baseUrl = "https://api.themoviedb.org/3";
 const type = "";
-const genre = "";
+const page = "";
 
 export const API = {
   generos:
@@ -19,7 +19,6 @@ export const API = {
     baseUrl +
     "/discover/movie?api_key=" +
     process.env.REACT_APP_KEY +
-    "&language=pt-BR&sort_by=popularity.desc&include_adult=false&page=",
+    "&language=pt-BR&sort_by=popularity.desc&include_adult=false&page=" +
+    page
 };
-
-//

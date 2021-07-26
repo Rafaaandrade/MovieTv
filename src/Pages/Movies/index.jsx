@@ -5,15 +5,21 @@ import { useAPIContext } from "../../components/Context/APIContext";
 import CustomPagination from "../../components/CustomPagination";
 import useStyles from "../styles";
 
-
 const Movies = () => {
-  const { content, pagination, setPagination, fetchTopMovies, numPages } =
-    useAPIContext();
+  const {
+    content,
+    pagination,
+    setPagination,
+    fetchTopMovies,
+    numPages,
+    buildGenresParam,
+  } = useAPIContext();
+
   const styles = useStyles();
 
   useEffect(() => {
     fetchTopMovies();
-  }, [pagination]);
+  }, [pagination, buildGenresParam]);
 
   return (
     <div>
@@ -21,7 +27,7 @@ const Movies = () => {
       <ChipGenres type="movie" />
       <div className={styles.containerContent}>
         {content &&
-          content.map((c) => (
+          content.data.map((c) => (
             <Card
               key={c.id}
               id={c.id}
