@@ -1,6 +1,6 @@
 const baseUrl = "https://api.themoviedb.org/3";
-const type = "";
-const page = "";
+let type = "";
+let page = "";
 
 export const API = {
   generos:
@@ -20,5 +20,26 @@ export const API = {
     "/discover/movie?api_key=" +
     process.env.REACT_APP_KEY +
     "&language=pt-BR&sort_by=popularity.desc&include_adult=false&page=" +
-    page
+    page,
+  pesquisaFilme:
+    baseUrl +
+    "/search/movie?api_key=" +
+    process.env.REACT_APP_KEY +
+    "&language=pt-BR",
+    pesquisaSerie:
+    baseUrl +
+    "/search/tv?api_key=" +
+    process.env.REACT_APP_KEY +
+    "&language=pt-BR",
+  // pesquisa:
+  //   baseUrl +
+  //   "/search/" +
+  //   type +
+  //   "?api_key=" +
+  //   process.env.REACT_APP_KEY +
+  //   "&language=pt-BR&query=" +
+  //   searchInput +
+  //   "&page=" +
+  //   page +
+  //   "&include_adult=false",
 };

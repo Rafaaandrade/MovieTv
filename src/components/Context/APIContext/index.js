@@ -7,7 +7,6 @@ const APIContext = createContext();
 
 const initialState = {
   data: [],
-  pesquisa: {},
   genresList: [],
   selectedGenres: [],
 };
@@ -18,7 +17,6 @@ export default function APIContextProvider({ children }) {
   const [numPages, setNumPages] = useState();
   const { selectedGenres, genresList } = content;
   const buildGenresParam = useGenresQuery(selectedGenres);
-  console.log("buildGenresParam", buildGenresParam);
 
   const fetchTrending = async () => {
     const { data } = await axios.get(API.highlights + pagination);
@@ -50,6 +48,39 @@ export default function APIContextProvider({ children }) {
     }
   };
 
+  const fetchSearch = async (value, searchInput) => {
+ 
+    if (value < 1) {
+      const { data } = await axios.get(
+        API.pesquisaFilme +
+          "&query=" +
+          searchInput +
+          "&page=" +
+          pagination +
+          "&include_adult=false"
+      );
+      setContent((prevState) => ({
+        ...prevState,
+        data: data.results,
+      }));
+      setNumPages(data.total_pages);
+    } else {
+      const { data } = await axios.get(
+        API.pesquisaSerie +
+          "&query=" +
+          searchInput +
+          "&page=" +
+          pagination +
+          "&include_adult=false"
+      );
+      setContent((prevState) => ({
+        ...prevState,
+        data: data.results,
+      }));
+      setNumPages(data.total_pages);
+    }
+  };
+
   return (
     <APIContext.Provider
       value={{
@@ -60,6 +91,7 @@ export default function APIContextProvider({ children }) {
         fetchTrending,
         fetchTopMovies,
         fetchGenres,
+        fetchSearch,
         numPages,
         buildGenresParam,
       }}
@@ -79,6 +111,7 @@ export function useAPIContext() {
     fetchTrending,
     fetchTopMovies,
     fetchGenres,
+    fetchSearch,
     buildGenresParam,
   } = useContext(APIContext);
 
@@ -91,6 +124,7 @@ export function useAPIContext() {
     fetchTrending,
     fetchTopMovies,
     fetchGenres,
+    fetchSearch,
     buildGenresParam,
   };
 }

@@ -1,7 +1,12 @@
+import SearchInput from "../../components/SearchInput";
+import useStyles from "../styles";
+
 const Search = () => {
+  const styles = useStyles();
   return (
     <div>
-      <span>Search</span>
+      <span className={styles.pageTitle}>Search</span>
+      <SearchInput/>
     </div>
   );
 };
