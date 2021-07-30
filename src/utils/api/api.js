@@ -26,11 +26,22 @@ export const API = {
     "/search/movie?api_key=" +
     process.env.REACT_APP_KEY +
     "&language=pt-BR",
-    pesquisaSerie:
+  pesquisaSerie:
     baseUrl +
     "/search/tv?api_key=" +
     process.env.REACT_APP_KEY +
     "&language=pt-BR",
+  seriesHighlights:
+    baseUrl +
+    "/discover/tv?api_key=" +
+    process.env.REACT_APP_KEY +
+    "&language=pt-BR&sort_by=popularity.desc&include_adult=false&page=" +
+    page,
+
+  // https://api.themoviedb.org/3/discover/tv?api_key=<
+  // <api_key>>&language=pt-BR&sort_by=popularity.desc&
+  //   include_null_first_air_dates=false&with_watch_monetization_types=flatrate
+
   // pesquisa:
   //   baseUrl +
   //   "/search/" +

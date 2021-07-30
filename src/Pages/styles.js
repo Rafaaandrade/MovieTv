@@ -19,7 +19,13 @@ export const useStyles = makeStyles(() => ({
         "@media(max-width: 1000px)": {
             fontSize: "6.4vw"
         }
-    }
+    },
+    searchContainer: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        marginTop: '15px'
+    },
 }));
 
 export default useStyles;

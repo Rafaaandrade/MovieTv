@@ -7,6 +7,7 @@ const APIContext = createContext();
 
 const initialState = {
   data: [],
+  pesquisa: [],
   genresList: [],
   selectedGenres: [],
 };
@@ -61,7 +62,8 @@ export default function APIContextProvider({ children }) {
       );
       setContent((prevState) => ({
         ...prevState,
-        data: data.results,
+        pesquisa: data.results,
+        ref: 'movie'
       }));
       setNumPages(data.total_pages);
     } else {
@@ -75,11 +77,22 @@ export default function APIContextProvider({ children }) {
       );
       setContent((prevState) => ({
         ...prevState,
-        data: data.results,
+        pesquisa: data.results,
+        ref: 'tv'
       }));
       setNumPages(data.total_pages);
     }
   };
+
+  const fetchTopSeries = async () => {
+    const { data } = await axios.get(API.seriesHighlights + "&with_genres=" + buildGenresParam)
+    setContent((prevState) => ({
+      ...prevState,
+      data: data.results
+    }))
+    setNumPages(data.total_pages);
+    console.log('content', content)
+  }
 
   return (
     <APIContext.Provider
@@ -92,6 +105,7 @@ export default function APIContextProvider({ children }) {
         fetchTopMovies,
         fetchGenres,
         fetchSearch,
+        fetchTopSeries,
         numPages,
         buildGenresParam,
       }}
@@ -112,6 +126,7 @@ export function useAPIContext() {
     fetchTopMovies,
     fetchGenres,
     fetchSearch,
+    fetchTopSeries,
     buildGenresParam,
   } = useContext(APIContext);
 
@@ -125,6 +140,7 @@ export function useAPIContext() {
     fetchTopMovies,
     fetchGenres,
     fetchSearch,
+    fetchTopSeries,
     buildGenresParam,
   };
 }
