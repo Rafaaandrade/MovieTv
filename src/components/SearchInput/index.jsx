@@ -9,8 +9,7 @@ const SearchInput = () => {
   const styles = useStyles();
   const [value, setValue] = useState(0);
   const { control, handleSubmit } = useForm();
-  const { fetchSearch, setContent, content } = useAPIContext();
-
+  const { fetchSearch, setContent } = useAPIContext();
 
   // Usado para limpar a pesquisa ao mudar de abas na tela
   useEffect(() => {
@@ -23,12 +22,10 @@ const SearchInput = () => {
 
   const handleChange = (ev, newValue) => {
     setValue(newValue);
-    console.log(value);
   };
 
   const handleInputSubmit = (data) => {
     fetchSearch(value, data.pesquisa);
-      console.log('content.pesquisa', content.pesquisa)
   };
 
   return (

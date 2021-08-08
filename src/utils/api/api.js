@@ -3,6 +3,7 @@ let type = "";
 let page = "";
 
 export const API = {
+  base: "https://api.themoviedb.org/3/",
   generos:
     baseUrl +
     "/genre/" +
@@ -37,20 +38,4 @@ export const API = {
     process.env.REACT_APP_KEY +
     "&language=pt-BR&sort_by=popularity.desc&include_adult=false&page=" +
     page,
-
-  // https://api.themoviedb.org/3/discover/tv?api_key=<
-  // <api_key>>&language=pt-BR&sort_by=popularity.desc&
-  //   include_null_first_air_dates=false&with_watch_monetization_types=flatrate
-
-  // pesquisa:
-  //   baseUrl +
-  //   "/search/" +
-  //   type +
-  //   "?api_key=" +
-  //   process.env.REACT_APP_KEY +
-  //   "&language=pt-BR&query=" +
-  //   searchInput +
-  //   "&page=" +
-  //   page +
-  //   "&include_adult=false",
 };

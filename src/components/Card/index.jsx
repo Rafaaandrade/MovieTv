@@ -3,12 +3,13 @@ import {
   img_300,
   indisponivel,
 } from "../../utils/constants/imagens/imagens-name";
+import ModalUI from "../ModalUI";
 import useStyles from "./styles";
 
-const Card = ({ image, title, date, type, vote_average }) => {
+const Card = ({ image, title, date, type, vote_average, id}) => {
   const styles = useStyles();
   return (
-    <div className={styles.container}>
+    <ModalUI type={type} id={id}>
       <Badge
         badgeContent={vote_average || "Sem votos"}
         color={vote_average > 6 ? "primary" : "secondary"}
@@ -23,7 +24,7 @@ const Card = ({ image, title, date, type, vote_average }) => {
         {type === "tv" ? "Séries de TV" : "Filmes"}
         <span>{date}</span>
       </span>
-    </div>
+    </ModalUI>
   );
 };
 

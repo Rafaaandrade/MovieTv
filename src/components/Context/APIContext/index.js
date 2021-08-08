@@ -10,6 +10,8 @@ const initialState = {
   pesquisa: [],
   genresList: [],
   selectedGenres: [],
+  details: [],
+  cast: [],
 };
 
 export default function APIContextProvider({ children }) {
@@ -50,7 +52,6 @@ export default function APIContextProvider({ children }) {
   };
 
   const fetchSearch = async (value, searchInput) => {
- 
     if (value < 1) {
       const { data } = await axios.get(
         API.pesquisaFilme +
@@ -63,7 +64,7 @@ export default function APIContextProvider({ children }) {
       setContent((prevState) => ({
         ...prevState,
         pesquisa: data.results,
-        ref: 'movie'
+        ref: "movie",
       }));
       setNumPages(data.total_pages);
     } else {
@@ -78,21 +79,74 @@ export default function APIContextProvider({ children }) {
       setContent((prevState) => ({
         ...prevState,
         pesquisa: data.results,
-        ref: 'tv'
+        ref: "tv",
       }));
       setNumPages(data.total_pages);
     }
   };
 
   const fetchTopSeries = async () => {
-    const { data } = await axios.get(API.seriesHighlights + "&with_genres=" + buildGenresParam)
+    const { data } = await axios.get(
+      API.seriesHighlights + pagination + "&with_genres=" + buildGenresParam
+    );
     setContent((prevState) => ({
       ...prevState,
-      data: data.results
-    }))
+      data: data.results,
+    }));
     setNumPages(data.total_pages);
-    console.log('content', content)
-  }
+  };
+
+  const fetchDetails = async (type, id) => {
+    const { data } = await axios.get(
+      API.base +
+        type +
+        "/" +
+        id +
+        "?api_key=" +
+        process.env.REACT_APP_KEY +
+        "&language=pt-BR"
+    );
+
+    setContent((prevState) => ({
+      ...prevState,
+      details: data,
+    }));
+  };
+
+  const fetchVideos = async (type, id) => {
+    const { data } = await axios.get(
+      API.base +
+        type +
+        "/" +
+        id +
+        "/videos?api_key=" +
+        process.env.REACT_APP_KEY +
+        "&language=pt-BR"
+    );
+
+
+    setContent((prevState) => ({
+      ...prevState,
+      video: type && data.results > [0] && data.results[0].key,
+    }));
+  };
+
+  const fetchCredits = async (type, id) => {
+    const { data } = await axios.get(
+      API.base +
+        type +
+        "/" +
+        id +
+        "/credits?api_key=" +
+        process.env.REACT_APP_KEY +
+        "&language=en-US"
+    );
+    setContent((prevState) => ({
+      ...prevState,
+      cast: data.cast
+    }));
+    console.log('cast', content.cast)
+  };
 
   return (
     <APIContext.Provider
@@ -106,6 +160,9 @@ export default function APIContextProvider({ children }) {
         fetchGenres,
         fetchSearch,
         fetchTopSeries,
+        fetchDetails,
+        fetchVideos,
+        fetchCredits,
         numPages,
         buildGenresParam,
       }}
@@ -127,6 +184,9 @@ export function useAPIContext() {
     fetchGenres,
     fetchSearch,
     fetchTopSeries,
+    fetchDetails,
+    fetchCredits,
+    fetchVideos,
     buildGenresParam,
   } = useContext(APIContext);
 
@@ -141,6 +201,9 @@ export function useAPIContext() {
     fetchGenres,
     fetchSearch,
     fetchTopSeries,
+    fetchDetails,
+    fetchVideos,
+    fetchCredits,
     buildGenresParam,
   };
 }
