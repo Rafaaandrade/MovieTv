@@ -7,15 +7,16 @@ import {
 import Carrousel from "../Carrousel";
 import { useAPIContext } from "../Context/APIContext";
 import useStyles from "./styles";
+import StarIcon from "@material-ui/icons/Star";
 
 const ModalContent = () => {
   const styles = useStyles();
-  const { content } = useAPIContext();
-  const { details, video, cast } = content;
+  const { content, setFavorite } = useAPIContext();
+  const { details, video, cast, loading} = content;
 
   return (
     <>
-      {details && (
+      {(details && !loading) ? (
         <div className={styles.paper}>
           <div className={styles.content}>
             <img
@@ -50,11 +51,12 @@ const ModalContent = () => {
                 <i className={styles.tagline}>{details.tagline}</i>
               )}
               <span className={styles.description}>{details.overview}</span>
-                <div>
-                  <Carrousel cast={cast} />
-                </div>
+              <div>
+                <Carrousel cast={cast} />
+              </div>
+
               <Button
-                stlye={{ display: "flex", justifyContent: "center" }}
+                style={{ display: "flex", justifyContent: "center" }}
                 variant="contained"
                 startIcon={<YouTubeIcon />}
                 color="secondary"
@@ -63,10 +65,18 @@ const ModalContent = () => {
               >
                 Assista ao trailer
               </Button>
+              <Button
+                style={{ display: "flex", justifyContent: "center" }}
+                variant="contained"
+                startIcon={<StarIcon />}
+                onClick={() => setFavorite(details)}
+              >
+                Adicionar ao favoritos
+              </Button>
             </div>
           </div>
         </div>
-      )}
+      ) : " Carregando"}
     </>
   );
 };

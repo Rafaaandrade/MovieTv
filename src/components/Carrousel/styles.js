@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   carrouselImage: {
       borderRadius: '10px',
       marginBottom: '5px',
-      boxShadow: '0px 0px 10px black'
+      boxShadow: '0px 0px 10px black',
   }
 }));
 

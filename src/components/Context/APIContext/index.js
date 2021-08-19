@@ -12,6 +12,8 @@ const initialState = {
   selectedGenres: [],
   details: [],
   cast: [],
+  favorite: [],
+  loading: false,
 };
 
 export default function APIContextProvider({ children }) {
@@ -20,6 +22,13 @@ export default function APIContextProvider({ children }) {
   const [numPages, setNumPages] = useState();
   const { selectedGenres, genresList } = content;
   const buildGenresParam = useGenresQuery(selectedGenres);
+
+  const setLoading = () => {
+    setContent((prevState) => ({
+      ...prevState,
+      loading: !prevState.loading,
+    }));
+  };
 
   const fetchTrending = async () => {
     const { data } = await axios.get(API.highlights + pagination);
@@ -124,7 +133,6 @@ export default function APIContextProvider({ children }) {
         "&language=pt-BR"
     );
 
-
     setContent((prevState) => ({
       ...prevState,
       video: type && data.results > [0] && data.results[0].key,
@@ -143,11 +151,24 @@ export default function APIContextProvider({ children }) {
     );
     setContent((prevState) => ({
       ...prevState,
-      cast: data.cast
+      cast: data.cast,
     }));
-    console.log('cast', content.cast)
   };
 
+  const setFavorite = (data) => {
+    const filter =
+      content.favorite && content.favorite.some((f) => f.id === data.id);
+    if (filter) {
+      alert("Já existe na página de Favoritos");
+    } else {
+      setContent((prevState) => ({
+        ...prevState,
+        favorite: [data, ...prevState.favorite],
+      }));
+    }
+  };
+
+  console.log("fav", content.favorite);
   return (
     <APIContext.Provider
       value={{
@@ -165,6 +186,8 @@ export default function APIContextProvider({ children }) {
         fetchCredits,
         numPages,
         buildGenresParam,
+        setFavorite,
+        setLoading,
       }}
     >
       {children}
@@ -188,6 +211,8 @@ export function useAPIContext() {
     fetchCredits,
     fetchVideos,
     buildGenresParam,
+    setFavorite,
+    setLoading,
   } = useContext(APIContext);
 
   return {
@@ -205,5 +230,7 @@ export function useAPIContext() {
     fetchVideos,
     fetchCredits,
     buildGenresParam,
+    setFavorite,
+    setLoading,
   };
 }

@@ -4,12 +4,15 @@ import MovieIcon from "@material-ui/icons/Movie";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { NAVIGATION_LABELS as NAV } from "../../utils/constants/label/navigation";
+import { useAPIContext } from "../Context/APIContext";
 import useStyles from "./styles";
 
 const Navigation = () => {
   const [value, setValue] = useState(0);
   const history = useHistory();
   const styles = useStyles();
+  const { content } = useAPIContext();
+  const { favorite } = content;
 
   //Verifica qual opção foi escolhida e direciona para a página
   useEffect(() => {
@@ -49,11 +52,13 @@ const Navigation = () => {
         label={NAV.search}
         icon={<Search />}
       />
-      <BottomNavigationAction
-        className={styles.action}
-        label={NAV.favorito}
-        icon={<Favorite />}
-      />
+      {favorite && favorite.length !== 0 && (
+        <BottomNavigationAction
+          className={styles.action}
+          label={NAV.favorito}
+          icon={<Favorite />}
+        />
+      )}
     </BottomNavigation>
   );
 };

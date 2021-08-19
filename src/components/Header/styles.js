@@ -22,6 +22,10 @@ export const useStyles = makeStyles(() => ({
       fontFamily: "sans-serif",
     },
   },
+  btn: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 }));
 
 export default useStyles;

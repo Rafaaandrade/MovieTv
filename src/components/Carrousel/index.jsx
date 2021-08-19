@@ -1,7 +1,10 @@
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { img_300 } from "../../utils/constants/imagens/imagens-name";
+import {
+  img_300,
+  indisponivel,
+} from "../../utils/constants/imagens/imagens-name";
 import useStyles from "./styles";
 
 const responsive = {
@@ -17,12 +20,12 @@ const responsive = {
 };
 
 const Carrousel = ({ cast }) => {
-    const styles= useStyles();
+  const styles = useStyles();
   const handleDragStart = (e) => e.preventDefault();
   const itens = cast?.map((c) => (
     <div className={styles.carrouselItem}>
       <img
-        src={c.profile_path ? `${img_300}/${c.profile_path}` : ""}
+        src={c.profile_path ? `${img_300}/${c.profile_path}` : indisponivel}
         alt={c?.name}
         onDragStart={handleDragStart}
         className={styles.carrouselImage}

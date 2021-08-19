@@ -9,7 +9,9 @@ import useStyles from "./styles";
 const ModalUI = ({ children, type, id }) => {
   const styles = useStyles();
   const [open, setOpen] = useState(false);
-  const { fetchDetails, fetchVideos, fetchCredits } = useAPIContext();
+  const { fetchDetails, fetchVideos, fetchCredits, setLoading, content } =
+    useAPIContext();
+  const { loading } = content;
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,15 +22,17 @@ const ModalUI = ({ children, type, id }) => {
   };
 
   const ModalDetails = () => {
+    setLoading();
     fetchDetails(type, id);
     fetchVideos(type, id);
     fetchCredits(type, id);
+    setLoading();
   };
 
   //Quando abrir a modal, será realizado a pesquisa dos filme/série escolhido
   useEffect(() => {
     open && ModalDetails(type, id);
-  }, [open]);
+  }, [open, loading]);
 
   return (
     <>
@@ -51,7 +55,7 @@ const ModalUI = ({ children, type, id }) => {
         }}
       >
         <Fade in={open}>
-          <ModalContent/>
+          <ModalContent />
         </Fade>
       </Modal>
     </>
